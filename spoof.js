@@ -1,3 +1,13 @@
+// import * as papa from "papaparse.min.js";
+// const Papa = import("https://unpkg.com/papaparse@latest/papaparse.min.js");
+
+// Papa.parse("./firstnames.csv", {
+//   download: true,
+//   complete: function (results) {
+//     console.log(results);
+//   },
+// });
+
 // Spoofing the dates, times, ID
 
 document.querySelector(
@@ -21,7 +31,7 @@ function getDate() {
 function getRegTime() {
   let period = "AM";
   let today = new Date();
-  let hh = today.toTimeString().split(" ")[0].split(":")[0];
+  let hh = parseInt(today.toTimeString().split(" ")[0].split(":")[0], 10);
   if (hh > 12) {
     hh -= 12;
     period = "PM";
@@ -45,7 +55,7 @@ function swapPeriod() {
 // Sets Class Time to the next half hour block after Registration Time
 function getClassTime() {
   let regTime = getRegTime();
-  let hh = regTime.split(" ")[0].split(":")[0];
+  let hh = parseInt(regTime.split(" ")[0].split(":")[0], 10);
   let mm = parseInt(regTime.split(" ")[0].split(":")[1], 10);
   let period = regTime.split(" ")[1];
   if (hh <= 9 && period == "AM") {
@@ -60,7 +70,7 @@ function getClassTime() {
       hh = parseInt(hh, 10) - 12;
       swapPeriod();
     }
-  } else if (mm > 0) {
+  } else if (mm < 30) {
     mm = 30;
   }
   hh = hh.toString().padStart(2, "0");
@@ -73,4 +83,18 @@ function getRndID() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
   return `${num}${letter}`;
+}
+
+function LoadFile() {
+  var oFrame = document.getElementById("frmFile");
+  var strRawContents =
+    oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+  while (strRawContents.indexOf("\r") >= 0)
+    strRawContents = strRawContents.replace("\r", "");
+  var arrLines = strRawContents.split("\n");
+  alert("File " + oFrame.src + " has " + arrLines.length + " lines");
+  for (var i = 0; i < arrLines.length; i++) {
+    var curLine = arrLines[i];
+    alert("Line #" + (i + 1) + " is: '" + curLine + "'");
+  }
 }
