@@ -8,7 +8,6 @@ document.querySelector(
 ).innerText = `${getDate()} ${getClassTime()}`;
 document.querySelector("#lblLastFour").innerText = getRndID();
 
-
 // Formatting the Date and Time without using Moment.js or any external libraries
 
 function getDate() {
@@ -43,7 +42,6 @@ function swapPeriod() {
   }
 }
 
-
 // Sets Class Time to the next half hour block after Registration Time
 function getClassTime() {
   let regTime = getRegTime();
@@ -58,9 +56,8 @@ function getClassTime() {
     hh += 1;
     if (hh == 12) {
       swapPeriod();
-    }
-    if (hh > 12) {
-      hh -= 12;
+    } else if (hh > 12) {
+      hh = parseInt(hh, 10) - 12;
       swapPeriod();
     }
   } else if (mm > 0) {
@@ -69,7 +66,6 @@ function getClassTime() {
   hh = hh.toString().padStart(2, "0");
   return `${hh}:${mm} ${period}`;
 }
-
 
 // Get Random ID (last 4 characters)
 function getRndID() {
