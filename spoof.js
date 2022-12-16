@@ -1,15 +1,45 @@
-// import * as papa from "papaparse.min.js";
-// const Papa = import("https://unpkg.com/papaparse@latest/papaparse.min.js");
+/* ----------------------------------
+  Spoofing the Names, Dates, Times, ID
+---------------------------------- */
 
-// Papa.parse("./firstnames.csv", {
-//   download: true,
-//   complete: function (results) {
-//     console.log(results);
-//   },
-// });
+// Function to fetch remote json file
+async function fetchNames() {
+  let names;
 
-// Spoofing the dates, times, ID
+  // Use try/catch instead of `Promise.catch`
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/schmwong/vms/main/data/names.json"
+      // "./data/names.json"
+    );
+    // Use the `.json` method on the fetch response object
+    names = await response.json();
+  } catch (error) {
+    console.log("error", error);
+  }
 
+  console.log(names);
+  return names;
+}
+
+// Call above function to parse random firstname and lastname from json and modify DOM element
+fetchNames()
+  .then((names) => {
+    const numberFirstnames = Object.keys(names.firstnames).length;
+    const numberLastnames = Object.keys(names.lastnames).length;
+    console.log(numberFirstnames);
+    console.log(numberLastnames);
+    const firstName = names.firstnames[getRndInt(1, numberFirstnames)];
+    const lastName = names.lastnames[getRndInt(1, numberLastnames)];
+    return { firstName, lastName };
+  })
+  .then(({ firstName, lastName }) => {
+    console.log(firstName);
+    console.log(lastName);
+    document.querySelector("#lblName").innerText = `${firstName} ${lastName}`;
+  });
+
+// Modifying Date and Time for Registration and Event elements in the DOM
 document.querySelector(
   "#lblThankYou"
 ).innerText = `${getDate()} ${getRegTime()}`;
@@ -83,6 +113,20 @@ function getRndID() {
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   let letter = alphabet[Math.floor(Math.random() * alphabet.length)];
   return `${num}${letter}`;
+}
+
+// Get random integer for JSON keys
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRndInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function LoadFile() {
