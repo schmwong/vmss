@@ -2,27 +2,21 @@
   Spoofing the Names, Dates, Times, ID
 ---------------------------------- */
 
-// Function to fetch remote json file
-async function fetchNames() {
-  let names;
+const currentDate = getDate();
+// const currentDate = "06-Jan-2023"; // testing: School of Accountancy
+// const currentDate = "11-Jan-2023"; // testing: School of Economics/School of Computing & Information Systems 2
+// const currentDate = "17-Feb-2023"; // testing: Lee Kong Chian School of Business
 
-  // Use try/catch instead of `Promise.catch`
-  try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/schmwong/vms/main/data/names.json"
-      // "./data/names.json"
-    );
-    // Use the `.json` method on the fetch response object
-    names = await response.json();
-  } catch (error) {
-    console.log("error", error);
-  }
+// Modifying Date and Time for Registration and Event elements in the DOM
+document.querySelector(
+  "#lblThankYou"
+).innerText = `${currentDate} ${getRegTime()}`;
+document.querySelector(
+  "#lblMeetingEvent"
+).innerText = `${currentDate} ${getClassTime()}`;
+document.querySelector("#lblLastFour").innerText = getRndID();
 
-  console.log(names);
-  return names;
-}
-
-// Call above function to parse random firstname and lastname from json and modify DOM element
+// Call function to parse random firstname and lastname from json and modify "Name as in ID" field in the DOM
 fetchNames()
   .then((names) => {
     const numberFirstnames = Object.keys(names.firstnames).length;
@@ -39,14 +33,45 @@ fetchNames()
     document.querySelector("#lblName").innerText = `${firstName} ${lastName}`;
   });
 
-// Modifying Date and Time for Registration and Event elements in the DOM
-document.querySelector(
-  "#lblThankYou"
-).innerText = `${getDate()} ${getRegTime()}`;
-document.querySelector(
-  "#lblMeetingEvent"
-).innerText = `${getDate()} ${getClassTime()}`;
-document.querySelector("#lblLastFour").innerText = getRndID();
+// Call function to retrieve class schedule as json array (key Date: value Classroom), checks if current date is in the keys, then modifies the "Building" field in the DOM with the correct value
+fetchSchedule()
+  .then((schedule) => {
+    const classDates = Object.keys(schedule);
+    // console.log(classDates);
+    let classroom;
+    if (schedule.hasOwnProperty(currentDate)) {
+      classroom = schedule[currentDate];
+      // console.log(classroom);
+    } else {
+      classroom = "YPHSL";
+    }
+    return classroom;
+  })
+  .then((classroom) => {
+    console.log(classroom);
+    let building;
+    // Regex to match substring at beginning of string (school building)
+    // https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
+    switch (classroom) {
+      case classroom.match(/^SOA/)?.input:
+        building = "School of Accountancy";
+        break;
+      case classroom.match(/^SOE\/SCIS2/)?.input:
+        building =
+          "School of Economics/School of Computing & Information Systems 2";
+        break;
+      case classroom.match(/^LKCSB/)?.input:
+        building = "Lee Kong Chian School of Business";
+        break;
+      default:
+        building = "Yong Pung How School of Law/Kwa Geok Choo Law Library";
+    }
+    console.log(building);
+    return building;
+  })
+  .then((building) => {
+    document.querySelector("#lblBuilding").innerText = building;
+  });
 
 // Formatting the Date and Time without using Moment.js or any external libraries
 
@@ -129,16 +154,55 @@ function getRndInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function LoadFile() {
-  var oFrame = document.getElementById("frmFile");
-  var strRawContents =
-    oFrame.contentWindow.document.body.childNodes[0].innerHTML;
-  while (strRawContents.indexOf("\r") >= 0)
-    strRawContents = strRawContents.replace("\r", "");
-  var arrLines = strRawContents.split("\n");
-  alert("File " + oFrame.src + " has " + arrLines.length + " lines");
-  for (var i = 0; i < arrLines.length; i++) {
-    var curLine = arrLines[i];
-    alert("Line #" + (i + 1) + " is: '" + curLine + "'");
+// function LoadFile() {
+//   var oFrame = document.getElementById("frmFile");
+//   var strRawContents =
+//     oFrame.contentWindow.document.body.childNodes[0].innerHTML;
+//   while (strRawContents.indexOf("\r") >= 0)
+//     strRawContents = strRawContents.replace("\r", "");
+//   var arrLines = strRawContents.split("\n");
+//   alert("File " + oFrame.src + " has " + arrLines.length + " lines");
+//   for (var i = 0; i < arrLines.length; i++) {
+//     var curLine = arrLines[i];
+//     alert("Line #" + (i + 1) + " is: '" + curLine + "'");
+//   }
+// }
+
+/* ------------------------------------------------
+Functions to fetch remote json files asynchronously
+ ----------------------------------------------- */
+async function fetchNames() {
+  let names;
+
+  // Use try/catch instead of `Promise.catch`
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/schmwong/vms/main/data/names.json"
+      // "./data/names.json"
+    );
+    // Use the `.json` method on the fetch response object
+    names = await response.json();
+  } catch (error) {
+    console.log("error", error);
   }
+
+  console.log(names);
+  return names;
+}
+//
+
+//
+async function fetchSchedule() {
+  let schedule;
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/schmwong/vms/main/data/smu_cc1_dates.json"
+    );
+    schedule = await response.json();
+  } catch (error) {
+    console.log("error", error);
+  }
+  schedule = schedule[0];
+  console.log(schedule);
+  return schedule;
 }
