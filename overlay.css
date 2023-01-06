@@ -10,7 +10,7 @@
     /* Neumorphism effects 
         ----------------------------------------------- */
     backdrop-filter: blur(16px) saturate(180%);
-    /* 			-webkit-backdrop-filter: blur(16px) saturate(180%); */
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     background: rgba(9, 89, 208, 0.131);
     /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
     box-shadow: 8px 8px 26px #92b1d590, -8px -8px 26px #ffffff;
