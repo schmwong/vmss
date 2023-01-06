@@ -1,0 +1,41 @@
+#overlay-form {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    text-align: center;
+    z-index: 3;
+    /* Neumorphism effects 
+        ----------------------------------------------- */
+    backdrop-filter: blur(16px) saturate(180%);
+    /* 			-webkit-backdrop-filter: blur(16px) saturate(180%); */
+    background: rgba(9, 89, 208, 0.131);
+    /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+    box-shadow: 8px 8px 26px #92b1d590, -8px -8px 26px #ffffff;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+}
+
+#close-btn {
+    width: 20px;
+    text-align: right;
+    background-color: rgb(255, 0, 98);
+    border-radius: 5%;
+    padding: 2.5px;
+}
+
+#lblClassroom {
+    font-weight: bold;
+    font-size: larger;
+}
+
+#instruction {
+    font-style: italic;
+}
+
+.lblInput {
+    color: rgba(9, 9, 9, 0.9) !important;
+}
