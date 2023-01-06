@@ -34,6 +34,9 @@ fetchNames()
   });
 
 // Call function to retrieve class schedule as json array (key Date: value Classroom), checks if current date is in the keys, then modifies the "Building" field in the DOM with the correct value
+
+var originalBuilding;
+
 fetchSchedule()
   .then((schedule) => {
     const classDates = Object.keys(schedule);
@@ -72,6 +75,7 @@ fetchSchedule()
   })
   .then((building) => {
     document.querySelector("#lblBuilding").innerText = building;
+    originalBuilding = document.querySelector("#lblBuilding").innerText;
   });
 
 // Formatting the Date and Time without using Moment.js or any external libraries

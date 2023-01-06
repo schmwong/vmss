@@ -26,7 +26,7 @@ const nameRegex = /^\w+/;
 const validateName = (name) => nameRegex.test(name);
 
 const buildingInput = document.querySelector("select[name='ddlBuilding']");
-const buildingRegex = /^[A-Z]/;
+const buildingRegex = /^\w/;
 
 const validateBuilding = (building) => buildingRegex.test(building);
 
@@ -40,19 +40,30 @@ const updateBtn = document.querySelector("input[name='ButtonSubmit']")
 
 updateBtn.onclick = updateDOM = () => {
     let idValue = idInput.value.trim().toUpperCase();
-    if (validateID(idValue) == true) {
-        document.querySelector("#lblLastFour").innerText = idValue;
-    }
+    borderColorChange(validateID, idValue, idInput, "#lblLastFour");
 
     let nameValue = nameInput.value.trim();
-    if (validateName(nameValue)) {
-        document.querySelector("#lblName").innerText = nameValue;
-    }
+    borderColorChange(validateName, nameValue, nameInput, "#lblName");
 
+    console.log(originalBuilding); // from spoof.js
     let buildingValue = buildingInput.value;
-    if (validateBuilding(buildingValue)) {
-        document.querySelector("#lblBuilding").innerText = buildingValue;
+    borderColorChange(validateBuilding, buildingValue, buildingInput, "#lblBuilding");
+    
+    // resets to use Building value at page load
+    if (buildingValue.length == 0) {
+        document.querySelector("#lblBuilding").innerText = originalBuilding;
     }
 
     overlay.style.display = "none";
+}
+
+function borderColorChange (validatorFn, inputValue, inputBox, domSelector) {
+    if (validatorFn(inputValue)) {
+        document.querySelector(domSelector).innerText = inputValue;
+        inputBox.style.borderColor = "green";
+    } else if (inputValue.length > 0) {
+        inputBox.style.borderColor = "red";
+    } else {
+        inputBox.style.borderColor = "goldenrod";
+    }
 }
