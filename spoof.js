@@ -52,7 +52,11 @@ fetchSchedule()
   })
   .then((classroom) => {
     console.log(classroom);
-    document.querySelector("#lblClassroom").innerText = `Today's classroom: \n${classroom}`;
+    if (classroom == "YPHSL") {
+      document.querySelector("#lblClassroom").innerText = `Today's classroom: \nNone`;
+    } else {
+      document.querySelector("#lblClassroom").innerText = `Today's classroom: \n${classroom}`;
+    }
     let building;
     // Regex to match substring at beginning of string (school building)
     // https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
