@@ -73,12 +73,12 @@
     <img id="close-btn" src="x-white.png" onclick="closeForm">
     <div class="clearfix"></div>
     <br>
-    <div id="lblClassroom" class="col-lg-6"> </div>
+    <div id="lblClassroom" class="col-lg-12"> </div>
     <div id="instruction">All fields are optional</div>
     <form action="" class="container" autocomplete="on">
         <div class="clearfix"></div>
         <br>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <label for="txtLastFour" class="lblInput">Last 4 characters of ID</label>
             <input name="txtLastFour" type="text" maxlength="4" id="txtLastFour" class="form-control specialChar" placeholder="e.g. 567A" autocomplete="on">
         </div>
@@ -135,7 +135,7 @@
         <div class="clearfix"></div>
         <br>
         <br>
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <input name="ButtonSubmit" value="Update" class="btn btn-primary" onclick="updateDOM">
         </div>
         <br>
@@ -158,8 +158,8 @@
                 <div id="Panel1" style="background-color: #fff;">
 	
                     <img id="Image1" src="./Self Registration_files/SMU_Logo_VMS_Self_Registration.jpg" style="border-width:0px;height: 100px; padding: 5px 15px 5px 10px; width: 100%;" onclick="openForm">
-                
-                </div>
+
+                </div onclick="openForm">
                 <br>
                 <label class="lblAcknowledgement">
                     Thank You for Registering</label>
@@ -198,8 +198,9 @@
                 <br>
             </div>
         </div>
+        <img id="Image2" src="tap-here.gif" style="border-width:0px;height: 100px; padding: 5px 15px 5px 10px; display: block; margin-left: auto; margin-right: auto; margin-bottom: 10px;">
     </div>
-    </form>
+    
 
 
 <script type="text/javascript">

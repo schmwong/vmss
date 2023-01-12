@@ -2,11 +2,13 @@
 Toggle Form Open and Close
 ----------------------- */
 
-const banner = document.querySelector("#Image1");
+const banner = document.querySelector("#Panel1");
+const footer = document.querySelector("#Image2")
 const closeBtn = document.querySelector("#close-btn");
 const overlay = document.querySelector("#overlay-form");
 
 banner.onclick = openForm = () => overlay.style.display = "block";
+footer.onclick = openForm = () => overlay.style.display = "block";
 closeBtn.onclick = closeForm = () => overlay.style.display = "none";
 
 //
